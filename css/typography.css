@@ -1,0 +1,223 @@
+/* ============================================================================
+   typography.css — Hierarki judul, paragraf, dan plakat teater
+   ============================================================================
+   ATURAN TIDAK BOLEH DILANGGAR
+   1. Judul dan plakat  -> Playfair Display, kapital, letter-spacing renggang.
+   2. Bacaan panjang    -> DM Sans di atas panel gading, warna teks gelap.
+   3. Emas (--color-old-gold) hanya untuk judul besar, angka statistik, dan
+      ornamen. TIDAK PERNAH untuk paragraf di atas latar marun.
+   ========================================================================= */
+
+/* --- Judul ---------------------------------------------------------------- */
+.display,
+.heading-1,
+.heading-2,
+.heading-3,
+.heading-4 {
+  font-family: var(--font-heading);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+  text-wrap: balance;
+}
+
+.display {
+  font-size: var(--text-display);
+  letter-spacing: var(--tracking-plaque);
+  text-transform: uppercase;
+}
+
+.heading-1 {
+  font-size: var(--text-h1);
+  letter-spacing: var(--tracking-plaque);
+  text-transform: uppercase;
+}
+
+.heading-2 {
+  font-size: var(--text-h2);
+  letter-spacing: var(--tracking-wide);
+}
+
+.heading-3 {
+  font-size: var(--text-h3);
+  letter-spacing: var(--tracking-wide);
+}
+
+.heading-4 {
+  font-size: var(--text-h4);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-normal);
+}
+
+/* --- Judul di atas latar gelap vs panel terang ---------------------------- */
+.heading-gold {
+  color: var(--color-old-gold);
+  text-shadow: 0 1px 0 rgb(0 0 0 / 55%);
+}
+
+.heading-ink {
+  color: var(--ink);
+}
+
+/* --- Plakat teater --------------------------------------------------------
+   Papan nama berbingkai emas yang dipakai di loge, header bagian, dan
+   penanda babak.                                                          */
+.plaque {
+  display: inline-block;
+  padding: var(--space-xs) var(--space-lg);
+
+  font-family: var(--font-heading);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-plaque);
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--color-antique-cream);
+
+  background: linear-gradient(180deg, var(--maroon-deep), var(--color-maroon));
+  border: var(--border-gold);
+  border-radius: var(--radius-xs);
+  box-shadow:
+    inset 0 1px 0 rgb(217 180 95 / 25%),
+    var(--shadow-sm);
+}
+
+.plaque--lit {
+  color: var(--color-ivory);
+  border-color: var(--gold-bright);
+  box-shadow:
+    inset 0 1px 0 rgb(217 180 95 / 45%),
+    var(--glow-gold);
+}
+
+/* --- Label kecil / eyebrow ------------------------------------------------ */
+.eyebrow {
+  font-family: var(--font-heading);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-plaque);
+  text-transform: uppercase;
+  color: var(--color-old-gold);
+}
+
+/* --- Paragraf -------------------------------------------------------------
+   Dipakai untuk seluruh naskah analisis akademis. Jarak antarbaris sengaja
+   longgar karena paragrafnya panjang.                                     */
+.prose {
+  max-width: var(--measure);
+  color: var(--text-on-panel);
+}
+
+.prose p {
+  margin-block-end: var(--space-md);
+  font-size: var(--text-body);
+  line-height: var(--leading-relaxed);
+  hyphens: none;
+}
+
+.prose p:last-child {
+  margin-block-end: 0;
+}
+
+.prose strong {
+  font-weight: var(--weight-semibold);
+  color: var(--ink);
+}
+
+.prose em,
+.term-foreign {
+  font-style: italic;
+}
+
+.prose a {
+  color: var(--gold-deep);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+  text-decoration-thickness: 1px;
+}
+
+.prose a:hover {
+  color: var(--color-blood-red);
+}
+
+.prose ul,
+.prose ol {
+  margin-block-end: var(--space-md);
+  padding-inline-start: var(--space-lg);
+}
+
+.prose li {
+  margin-block-end: var(--space-xs);
+  line-height: var(--leading-relaxed);
+}
+
+.prose li::marker {
+  color: var(--gold-deep);
+}
+
+/* Teks pengantar yang sedikit lebih besar. */
+.lede {
+  max-width: var(--measure);
+  font-size: clamp(1.0625rem, 1rem + 0.35vw, 1.1875rem);
+  line-height: var(--leading-relaxed);
+  color: var(--text-on-panel-soft);
+}
+
+.lede--on-dark {
+  color: var(--text-on-dark-soft);
+}
+
+/* --- Angka statistik besar ------------------------------------------------ */
+.stat-number {
+  font-family: var(--font-heading);
+  font-size: var(--text-stat);
+  font-weight: var(--weight-bold);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+  color: var(--color-old-gold);
+}
+
+.stat-number--on-panel {
+  color: var(--gold-deep);
+}
+
+.stat-label {
+  font-family: var(--font-heading);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-plaque);
+  text-transform: uppercase;
+  color: var(--text-on-dark-soft);
+}
+
+/* --- Keterangan sumber data ----------------------------------------------
+   Setiap angka di website ini harus bisa ditelusuri sumbernya.           */
+.source-note {
+  font-size: var(--text-xs);
+  line-height: var(--leading-snug);
+  color: var(--ink-faint);
+}
+
+.source-note--on-dark {
+  color: rgb(201 188 174 / 72%);
+}
+
+/* --- Notasi catur --------------------------------------------------------- */
+.notation {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- Kutipan -------------------------------------------------------------- */
+.pull-quote {
+  max-width: var(--measure-narrow);
+  padding-inline-start: var(--space-lg);
+  border-inline-start: 3px solid var(--color-old-gold);
+
+  font-family: var(--font-heading);
+  font-size: var(--text-h3);
+  font-style: italic;
+  line-height: var(--leading-snug);
+  color: var(--ink);
+}

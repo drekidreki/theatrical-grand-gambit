@@ -1,0 +1,13 @@
+# Dependensi pengujian (hanya untuk tools/browser-*.mjs)
+node_modules/
+package-lock.json
+
+# Keluaran tangkapan layar dari skrip uji
+tools/shot-*.png
+
+# Berkas sistem
+.DS_Store
+Thumbs.db
+
+# Vercel
+.vercel

@@ -1,0 +1,651 @@
+/* ============================================================================
+   layout.css — Kontainer, grid, dan komponen bersama antarbagian
+   ============================================================================
+   Berisi komponen yang dipakai lebih dari satu babak: tombol, panel gading,
+   kartu tiket, header bagian, footer bagian, dan bilah navigasi.
+   Gaya khusus tiap babak ada di css/sections/.
+   ========================================================================= */
+
+/* --- Kontainer ------------------------------------------------------------ */
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: clamp(var(--space-md), 4vw, var(--space-2xl));
+}
+
+.container--reading {
+  max-width: var(--container-reading);
+}
+
+/* --- Kerangka babak -------------------------------------------------------
+   Tiap babak adalah <section> dalam satu dokumen (SPA). Yang tidak aktif
+   disembunyikan lewat atribut hidden sehingga tetap keluar dari urutan
+   fokus keyboard.                                                         */
+.act {
+  display: none;
+  padding-block: var(--space-3xl) var(--space-4xl);
+}
+
+.act.is-active {
+  display: block;
+  animation: act-enter var(--transition-medium) var(--ease-stage) both;
+}
+
+/* --- Header babak --------------------------------------------------------- */
+.act-header {
+  position: relative;
+  margin-block-end: var(--space-2xl);
+  text-align: center;
+}
+
+.act-header__ornament {
+  display: block;
+  width: min(220px, 60%);
+  height: 18px;
+  margin: 0 auto var(--space-md);
+  color: var(--color-old-gold);
+}
+
+.act-header__plaque {
+  margin-block-end: var(--space-md);
+}
+
+.act-header__title {
+  margin-block-end: var(--space-sm);
+}
+
+.act-header__subtitle {
+  max-width: var(--measure-narrow);
+  margin-inline: auto;
+  font-size: var(--text-body);
+  line-height: var(--leading-relaxed);
+  color: var(--text-on-dark-soft);
+}
+
+/* --- Panel gading: rumah seluruh bacaan panjang ---------------------------
+   Panel ini tidak pernah ikut bergerak oleh animasi latar, sesuai aturan
+   "bacaan tetap terang dan diam".                                        */
+.panel {
+  position: relative;
+  padding: clamp(var(--space-lg), 3.5vw, var(--space-2xl));
+
+  color: var(--text-on-panel);
+  background-color: var(--surface-panel);
+  border: var(--border-panel);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-panel);
+}
+
+/* Bingkai emas tipis di dalam panel — meniru pigura lukisan teater. */
+.panel--framed::before {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  pointer-events: none;
+  border: var(--border-gold-faint);
+  border-radius: var(--radius-sm);
+}
+
+.panel--cream {
+  background-color: var(--surface-panel-alt);
+}
+
+.panel__title {
+  margin-block-end: var(--space-md);
+  color: var(--ink);
+}
+
+.panel__title + .prose {
+  margin-block-start: 0;
+}
+
+/* Panel yang isinya murni bacaan dipersempit, bukan paragrafnya yang
+   dipusatkan. Mempersempit panelnya menjaga judul dan paragraf tetap
+   sejajar di tepi kiri yang sama; memusatkan paragraf saja justru membuat
+   keduanya meleset. */
+.panel--prose {
+  max-width: calc(var(--container-reading) + 2 * var(--space-2xl));
+  margin-inline: auto;
+}
+
+/* --- Kartu gelap di atas panggung ----------------------------------------- */
+.card-dark {
+  padding: var(--space-lg);
+  color: var(--text-on-dark);
+  background: var(--surface-raised);
+  border: var(--border-gold-faint);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+}
+
+/* --- Kartu tiket pertunjukan ----------------------------------------------
+   Dipakai untuk kartu statistik dan kartu aturan catur. Takik setengah
+   lingkaran di sisi kiri-kanan meniru tiket yang disobek.                */
+.ticket {
+  position: relative;
+  padding: var(--space-lg) var(--space-xl);
+  overflow: hidden;
+
+  color: var(--text-on-panel);
+  background: var(--surface-panel-alt);
+  border: var(--border-gold);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-md);
+}
+
+.ticket::before,
+.ticket::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 18px;
+  height: 18px;
+  background: var(--surface-stage);
+  border-radius: 50%;
+  transform: translateY(-50%);
+}
+
+.ticket::before {
+  left: -9px;
+}
+
+.ticket::after {
+  right: -9px;
+}
+
+.ticket__label {
+  display: block;
+  margin-block-end: var(--space-2xs);
+  font-family: var(--font-heading);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-plaque);
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.ticket__value {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: var(--text-stat);
+  font-weight: var(--weight-bold);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: var(--gold-deep);
+}
+
+.ticket__meta {
+  display: block;
+  margin-block-start: var(--space-xs);
+  font-size: var(--text-xs);
+  color: var(--ink-faint);
+}
+
+/* --- Tombol --------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  gap: var(--space-xs);
+  align-items: center;
+  justify-content: center;
+  min-height: var(--touch-min);
+  padding: var(--space-sm) var(--space-lg);
+
+  font-family: var(--font-heading);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-plaque);
+  text-transform: uppercase;
+  text-align: center;
+
+  border-radius: var(--radius-sm);
+  transition:
+    transform var(--transition-fast) var(--ease-spring),
+    box-shadow var(--transition-fast) var(--ease-stage),
+    background-color var(--transition-fast) var(--ease-stage),
+    color var(--transition-fast) var(--ease-stage);
+}
+
+.btn:active {
+  transform: translateY(1px) scale(0.985);
+}
+
+/* Tombol utama: plakat emas. */
+.btn--gold {
+  color: var(--color-theater);
+  background: var(--gradient-gold);
+  border: 1px solid var(--gold-bright);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn--gold:hover {
+  box-shadow: var(--glow-gold), var(--shadow-sm);
+}
+
+/* Tombol sekunder: garis emas di atas gelap. */
+.btn--ghost {
+  color: var(--color-old-gold);
+  background: rgb(14 10 11 / 55%);
+  border: var(--border-gold);
+}
+
+.btn--ghost:hover {
+  color: var(--color-theater);
+  background: var(--color-old-gold);
+}
+
+/* Tombol di atas panel gading. */
+.btn--ink {
+  color: var(--surface-panel);
+  background: var(--color-maroon);
+  border: 1px solid var(--maroon-deep);
+}
+
+.btn--ink:hover {
+  background: var(--color-crimson);
+}
+
+.btn--sm {
+  min-height: 36px;
+  padding: var(--space-2xs) var(--space-md);
+  font-size: 0.75rem;
+}
+
+.btn[aria-pressed='true'],
+.btn.is-active {
+  color: var(--color-theater);
+  background: var(--gradient-gold);
+  border-color: var(--gold-bright);
+}
+
+.btn:disabled,
+.btn[aria-disabled='true'] {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+/* --- Grid serbaguna -------------------------------------------------------- */
+.grid {
+  display: grid;
+  gap: var(--space-lg);
+}
+
+.grid--2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.grid--3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.grid--auto {
+  grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+}
+
+.stack > * + * {
+  margin-block-start: var(--space-lg);
+}
+
+.stack--tight > * + * {
+  margin-block-start: var(--space-md);
+}
+
+/* --- Bilah progres membaca ------------------------------------------------- */
+.reading-progress {
+  position: fixed;
+  inset-block-start: 0;
+  inset-inline: 0;
+  z-index: var(--z-progress);
+  height: var(--progress-height);
+  background: rgb(14 10 11 / 60%);
+}
+
+.reading-progress__bar {
+  height: 100%;
+  width: 0;
+  background: var(--gradient-gold);
+  box-shadow: var(--glow-gold);
+  transform-origin: left center;
+  transition: width 90ms linear;
+}
+
+/* --- Header tetap (Program Acara + kontrol) -------------------------------- */
+.stage-header {
+  position: fixed;
+  inset-block-start: var(--progress-height);
+  inset-inline: 0;
+  z-index: var(--z-header);
+
+  display: flex;
+  gap: var(--space-md);
+  align-items: center;
+  justify-content: space-between;
+  min-height: var(--header-height);
+  padding-inline: clamp(var(--space-md), 3vw, var(--space-xl));
+
+  background: linear-gradient(180deg, rgb(14 10 11 / 94%), rgb(14 10 11 / 72%));
+  border-block-end: var(--border-gold-faint);
+  backdrop-filter: blur(8px);
+}
+
+.stage-header__brand {
+  display: flex;
+  gap: var(--space-xs);
+  align-items: center;
+  font-family: var(--font-heading);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-plaque);
+  text-transform: uppercase;
+  color: var(--color-old-gold);
+}
+
+.stage-header__controls {
+  display: flex;
+  gap: var(--space-xs);
+  align-items: center;
+}
+
+/* --- Panel Program Acara (buklet pertunjukan) ------------------------------ */
+.program {
+  position: fixed;
+  inset-block: 0;
+  inset-inline-end: 0;
+  z-index: var(--z-program);
+
+  display: flex;
+  flex-direction: column;
+  width: min(380px, 100%);
+  padding: var(--space-xl);
+  overflow-y: auto;
+
+  background:
+    linear-gradient(180deg, var(--color-maroon), var(--maroon-deep));
+  border-inline-start: var(--border-gold);
+  box-shadow: var(--shadow-lg);
+
+  transform: translateX(100%);
+  visibility: hidden;
+  transition:
+    transform var(--transition-medium) var(--ease-stage),
+    visibility 0s linear var(--transition-medium);
+}
+
+.program.is-open {
+  transform: translateX(0);
+  visibility: visible;
+  transition:
+    transform var(--transition-medium) var(--ease-stage),
+    visibility 0s;
+}
+
+.program__backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal-backdrop);
+  background: rgb(8 5 6 / 72%);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity var(--transition-medium) var(--ease-stage),
+    visibility 0s linear var(--transition-medium);
+}
+
+.program__backdrop.is-open {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity var(--transition-medium) var(--ease-stage), visibility 0s;
+}
+
+.program__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  margin-block-start: var(--space-lg);
+}
+
+.program__item {
+  display: block;
+  width: 100%;
+  padding: var(--space-md);
+  text-align: start;
+
+  background: rgb(14 10 11 / 50%);
+  border: var(--border-gold-faint);
+  border-radius: var(--radius-sm);
+  transition:
+    border-color var(--transition-fast) var(--ease-stage),
+    background-color var(--transition-fast) var(--ease-stage);
+}
+
+.program__item:hover,
+.program__item:focus-visible {
+  background: rgb(107 15 26 / 45%);
+  border-color: var(--color-old-gold);
+}
+
+.program__item[aria-current='true'] {
+  background: rgb(107 15 26 / 60%);
+  border-color: var(--gold-bright);
+  box-shadow: inset 3px 0 0 var(--gold-bright);
+}
+
+.program__item-number {
+  font-family: var(--font-heading);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-plaque);
+  color: var(--color-old-gold);
+}
+
+.program__item-title {
+  display: block;
+  margin-block: var(--space-2xs);
+  font-family: var(--font-heading);
+  font-size: var(--text-h4);
+  color: var(--color-ivory);
+}
+
+.program__item-desc {
+  display: block;
+  font-size: var(--text-xs);
+  line-height: var(--leading-snug);
+  color: var(--text-on-dark-soft);
+}
+
+.program__item-status {
+  display: inline-block;
+  margin-block-start: var(--space-xs);
+  font-size: 0.6875rem;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--gold-bright);
+}
+
+/* --- Footer babak: navigasi tiket maju-mundur ------------------------------ */
+.act-footer {
+  margin-block-start: var(--space-3xl);
+  padding-block-start: var(--space-xl);
+  border-block-start: var(--border-gold-faint);
+}
+
+.act-nav {
+  display: flex;
+  gap: var(--space-md);
+  justify-content: space-between;
+  margin-block-start: var(--space-lg);
+}
+
+.act-nav__ticket {
+  flex: 1 1 0;
+  min-height: var(--touch-min);
+  padding: var(--space-md);
+
+  background: rgb(27 17 19 / 80%);
+  border: var(--border-gold-faint);
+  border-radius: var(--radius-sm);
+  transition: border-color var(--transition-fast) var(--ease-stage);
+}
+
+.act-nav__ticket:hover {
+  border-color: var(--color-old-gold);
+}
+
+.act-nav__ticket--next {
+  text-align: end;
+}
+
+.act-nav__direction {
+  display: block;
+  font-size: 0.6875rem;
+  letter-spacing: var(--tracking-plaque);
+  text-transform: uppercase;
+  color: var(--color-old-gold);
+}
+
+.act-nav__name {
+  display: block;
+  margin-block-start: var(--space-2xs);
+  font-family: var(--font-heading);
+  font-size: var(--text-h4);
+  color: var(--color-ivory);
+}
+
+/* --- Modal & lightbox ------------------------------------------------------ */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  display: grid;
+  place-items: center;
+  padding: var(--space-lg);
+}
+
+.modal__panel {
+  max-width: min(92vw, 720px);
+  max-height: 88dvh;
+  overflow-y: auto;
+}
+
+/* --- Kotak Catatan Verifikasi ---------------------------------------------
+   Dipakai saat materi sumber perlu dilengkapi hasil pengecekan terhadap
+   peraturan resmi FIDE. Naskah asli tetap tampil utuh di atasnya.        */
+.verify-note {
+  margin-block-start: var(--space-lg);
+  padding: var(--space-md) var(--space-lg);
+
+  color: var(--text-on-panel);
+  background: rgb(184 147 63 / 12%);
+  border: 1px solid rgb(184 147 63 / 55%);
+  border-inline-start: 4px solid var(--color-old-gold);
+  border-radius: var(--radius-sm);
+}
+
+.verify-note__title {
+  display: flex;
+  gap: var(--space-xs);
+  align-items: center;
+  margin-block-end: var(--space-xs);
+
+  font-family: var(--font-heading);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-plaque);
+  text-transform: uppercase;
+  color: var(--gold-deep);
+}
+
+.verify-note p {
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+}
+
+.verify-note p + p {
+  margin-block-start: var(--space-sm);
+}
+
+/* --- Penanda aset yang belum tersedia --------------------------------------
+   Sesuai aturan integritas: tandai untuk diperiksa, jangan karang
+   penggantinya.                                                          */
+.asset-slot {
+  display: grid;
+  place-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-2xl) var(--space-lg);
+  text-align: center;
+
+  color: var(--text-on-dark-soft);
+  background:
+    repeating-linear-gradient(
+      135deg,
+      rgb(184 147 63 / 6%) 0 12px,
+      transparent 12px 24px
+    ),
+    var(--surface-raised);
+  border: 1px dashed rgb(184 147 63 / 55%);
+  border-radius: var(--radius-sm);
+}
+
+.asset-slot__title {
+  font-family: var(--font-heading);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-plaque);
+  text-transform: uppercase;
+  color: var(--color-old-gold);
+}
+
+.asset-slot__path {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--gold-bright);
+}
+
+.asset-slot__hint {
+  max-width: 46ch;
+  font-size: var(--text-xs);
+  line-height: var(--leading-snug);
+}
+
+/* --- Tabel ----------------------------------------------------------------- */
+.data-table {
+  width: 100%;
+  font-size: var(--text-sm);
+  color: var(--text-on-panel);
+}
+
+.data-table caption {
+  margin-block-end: var(--space-sm);
+  font-family: var(--font-heading);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-plaque);
+  text-align: start;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+}
+
+.data-table th,
+.data-table td {
+  padding: var(--space-xs) var(--space-sm);
+  text-align: start;
+  border-block-end: 1px solid rgb(36 26 22 / 14%);
+}
+
+.data-table th {
+  font-family: var(--font-heading);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  background: rgb(184 147 63 / 10%);
+}
+
+.data-table tbody tr:hover {
+  background: rgb(184 147 63 / 8%);
+}
+
+.data-table td.num {
+  font-variant-numeric: tabular-nums;
+  text-align: end;
+}
+
+.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}

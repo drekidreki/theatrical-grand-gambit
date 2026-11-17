@@ -1,0 +1,284 @@
+/* ============================================================================
+   animations.css — Keyframes tirai, sorotan, dan gerak ambien
+   ============================================================================
+   Hanya menganimasikan `transform` dan `opacity` agar browser dapat
+   menyerahkan pekerjaannya ke GPU dan tidak memicu reflow.
+
+   Koreografi berurutan (intro, transisi babak) dikendalikan GSAP di
+   js/animation-controller.js. File ini menyediakan gerak ambien yang
+   berulang terus-menerus dan tidak perlu disinkronkan.
+
+   Dua sakelar mematikan seluruh gerak ambien:
+     - @media (prefers-reduced-motion: reduce)   — preferensi sistem
+     - html.motion-paused                        — tombol "Jeda Gerak"
+   ========================================================================= */
+
+/* --- Masuknya sebuah babak ------------------------------------------------ */
+@keyframes act-enter {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* --- Tirai beludru membuka ------------------------------------------------ */
+@keyframes curtain-open-left {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(-102%, 0, 0);
+  }
+}
+
+@keyframes curtain-open-right {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(102%, 0, 0);
+  }
+}
+
+/* --- Tirai bergoyang pelan seperti terkena angin kisi-kisi ---------------- */
+@keyframes curtain-sway {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) skewX(0deg);
+  }
+
+  50% {
+    transform: translate3d(0.4%, 0, 0) skewX(0.35deg);
+  }
+}
+
+/* --- Sorotan lampu bergoyang halus ---------------------------------------- */
+@keyframes spotlight-drift {
+  0%,
+  100% {
+    opacity: 0.82;
+    transform: translate3d(-1.2%, 0, 0) scale(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translate3d(1.2%, 0, 0) scale(1.03);
+  }
+}
+
+/* --- Bidak melayang turun-naik -------------------------------------------- */
+@keyframes piece-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(-1.5deg);
+  }
+
+  50% {
+    transform: translate3d(0, -22px, 0) rotate(1.5deg);
+  }
+}
+
+/* --- Debu melayang di berkas cahaya --------------------------------------- */
+@keyframes dust-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 0, 0);
+  }
+
+  12% {
+    opacity: 0.7;
+  }
+
+  88% {
+    opacity: 0.5;
+  }
+
+  to {
+    opacity: 0;
+    transform: translate3d(14px, -120px, 0);
+  }
+}
+
+/* --- Kilau emas melintasi ornamen ----------------------------------------- */
+@keyframes gold-shimmer {
+  from {
+    background-position: -220% 0;
+  }
+
+  to {
+    background-position: 220% 0;
+  }
+}
+
+/* --- Petak papan catur "bernapas" ----------------------------------------- */
+@keyframes square-breathe {
+  0%,
+  100% {
+    opacity: 0.88;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+/* --- Lampu gantung berayun ------------------------------------------------- */
+@keyframes chandelier-swing {
+  0%,
+  100% {
+    transform: rotate(-0.8deg);
+  }
+
+  50% {
+    transform: rotate(0.8deg);
+  }
+}
+
+/* --- Denyut lembut untuk indikator "dapat diklik" ------------------------- */
+@keyframes pulse-gold {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.12);
+  }
+}
+
+/* --- Garis grafik tergambar ------------------------------------------------ */
+@keyframes draw-line {
+  from {
+    stroke-dashoffset: var(--line-length, 2000);
+  }
+
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* --- Pasir jam pasir turun ------------------------------------------------- */
+@keyframes hourglass-drain {
+  from {
+    transform: scaleY(1);
+  }
+
+  to {
+    transform: scaleY(0);
+  }
+}
+
+/* ===========================================================================
+   Kelas pemasang animasi ambien
+   Semuanya diberi prefiks .anim- agar mudah dimatikan serentak.
+   ======================================================================== */
+
+.anim-float {
+  animation: piece-float var(--float-duration, 9s) ease-in-out infinite;
+  animation-delay: var(--float-delay, 0s);
+  will-change: transform;
+}
+
+.anim-sway {
+  animation: curtain-sway 11s ease-in-out infinite;
+  will-change: transform;
+}
+
+.anim-spotlight {
+  animation: spotlight-drift 14s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.anim-breathe {
+  animation: square-breathe 7s ease-in-out infinite;
+  animation-delay: var(--breathe-delay, 0s);
+}
+
+.anim-swing {
+  animation: chandelier-swing 9s ease-in-out infinite;
+  transform-origin: top center;
+  will-change: transform;
+}
+
+.anim-pulse {
+  animation: pulse-gold 2.4s ease-in-out infinite;
+}
+
+.anim-shimmer {
+  background-image: linear-gradient(
+    110deg,
+    transparent 38%,
+    rgb(217 180 95 / 55%) 50%,
+    transparent 62%
+  );
+  background-size: 220% 100%;
+  animation: gold-shimmer 5.5s linear infinite;
+}
+
+.anim-dust {
+  animation: dust-rise var(--dust-duration, 13s) linear infinite;
+  animation-delay: var(--dust-delay, 0s);
+}
+
+/* ===========================================================================
+   Sakelar mematikan gerak
+   ======================================================================== */
+
+/* Pause Motion manual. Animasi dihentikan, tetapi elemen tetap terlihat di
+   posisi akhirnya sehingga tidak ada konten yang hilang. */
+html.motion-paused .anim-float,
+html.motion-paused .anim-sway,
+html.motion-paused .anim-spotlight,
+html.motion-paused .anim-breathe,
+html.motion-paused .anim-swing,
+html.motion-paused .anim-pulse,
+html.motion-paused .anim-shimmer,
+html.motion-paused .anim-dust {
+  animation: none !important;
+}
+
+html.motion-paused .anim-dust,
+html.motion-paused .dust-mote {
+  opacity: 0 !important;
+}
+
+/* Preferensi sistem. Perlakuan sama dengan Pause Motion. */
+@media (prefers-reduced-motion: reduce) {
+  .anim-float,
+  .anim-sway,
+  .anim-spotlight,
+  .anim-breathe,
+  .anim-swing,
+  .anim-pulse,
+  .anim-shimmer,
+  .anim-dust {
+    animation: none !important;
+  }
+
+  .dust-mote {
+    opacity: 0 !important;
+  }
+
+  .act.is-active {
+    animation: none;
+  }
+}
+
+/* Animasi yang keluar layar dihentikan oleh IntersectionObserver melalui
+   kelas ini, supaya tidak membuang CPU. */
+.is-offscreen .anim-float,
+.is-offscreen .anim-sway,
+.is-offscreen .anim-spotlight,
+.is-offscreen .anim-breathe,
+.is-offscreen .anim-dust {
+  animation-play-state: paused;
+}

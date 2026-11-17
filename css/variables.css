@@ -1,0 +1,203 @@
+/* ============================================================================
+   variables.css — Sumber tunggal identitas visual
+   ============================================================================
+   Seluruh warna, ukuran, dan durasi di proyek ini WAJIB merujuk ke token di
+   bawah. Jangan menulis ulang nilai heksadesimal di file CSS lain.
+
+   Catatan z-index: seluruh nilai bersifat internal terhadap dokumen ini dan
+   tidak berhubungan dengan z-index <iframe> di halaman induk.
+   ========================================================================= */
+
+:root {
+  /* --- Palet inti (ditetapkan di dokumen konsep) ------------------------- */
+  --color-theater: #0e0a0b;        /* Hitam teater — latar paling gelap      */
+  --color-maroon: #3a0a12;         /* Marun beludru — dinding & tirai samping*/
+  --color-crimson: #6b0f1a;        /* Merah tua — tirai utama                */
+  --color-blood-red: #8e1b26;      /* Merah darah — aksen kuat               */
+  --color-antique-cream: #e6d5b0;  /* Krem antik — petak papan & panel       */
+  --color-ivory: #f3efe7;          /* Gading — panel baca teks panjang       */
+  --color-old-gold: #b8933f;       /* Emas tua — bingkai, ornamen, angka     */
+
+  /* --- Turunan palet ------------------------------------------------------
+     Dibuat dari palet inti agar gradasi, bayangan, dan status tetap satu
+     keluarga warna. Tidak ada warna baru yang diperkenalkan di sini.        */
+  --gold-bright: #d9b45f;          /* emas tersorot lampu                    */
+  --gold-deep: #7d6227;            /* emas dalam bayangan                    */
+  --maroon-deep: #250509;          /* marun paling pekat                     */
+  --crimson-lit: #8c1522;          /* tirai yang kena sorotan                */
+  --ink: #241a16;                  /* teks gelap di atas panel gading        */
+  --ink-soft: #5a4a41;             /* teks sekunder di atas panel gading     */
+  --ink-faint: #8a7a6e;            /* keterangan kecil / sumber data         */
+
+  /* --- Peran permukaan ---------------------------------------------------- */
+  --surface-stage: var(--color-theater);
+  --surface-wall: var(--color-maroon);
+  --surface-panel: var(--color-ivory);       /* panel bacaan panjang         */
+  --surface-panel-alt: var(--color-antique-cream);
+  --surface-raised: #1b1113;                 /* kartu di atas latar gelap    */
+  --surface-sunken: #080506;
+
+  /* --- Peran teks ---------------------------------------------------------
+     ATURAN KETERBACAAN: teks bacaan panjang hanya boleh memakai --text-on-panel
+     di atas --surface-panel. Emas tidak pernah dipakai untuk paragraf.      */
+  --text-on-panel: var(--ink);
+  --text-on-panel-soft: var(--ink-soft);
+  --text-on-dark: var(--color-ivory);
+  --text-on-dark-soft: #c9bcae;
+  --text-accent: var(--color-old-gold);
+
+  /* --- Garis & bingkai ---------------------------------------------------- */
+  --border-gold: 1px solid var(--color-old-gold);
+  --border-gold-thick: 2px solid var(--color-old-gold);
+  --border-gold-faint: 1px solid rgb(184 147 63 / 35%);
+  --border-panel: 1px solid rgb(36 26 22 / 14%);
+
+  --gradient-gold: linear-gradient(
+    160deg,
+    var(--gold-deep) 0%,
+    var(--gold-bright) 38%,
+    var(--color-old-gold) 62%,
+    var(--gold-deep) 100%
+  );
+  --gradient-curtain: linear-gradient(
+    90deg,
+    var(--maroon-deep) 0%,
+    var(--color-crimson) 22%,
+    var(--crimson-lit) 38%,
+    var(--color-crimson) 54%,
+    var(--maroon-deep) 78%,
+    var(--color-crimson) 100%
+  );
+  --gradient-footlight: radial-gradient(
+    ellipse 70% 100% at 50% 100%,
+    rgb(217 180 95 / 22%) 0%,
+    transparent 70%
+  );
+
+  /* --- Bayangan ----------------------------------------------------------- */
+  --shadow-sm: 0 2px 6px rgb(0 0 0 / 40%);
+  --shadow-md: 0 8px 24px rgb(0 0 0 / 50%);
+  --shadow-lg: 0 20px 60px rgb(0 0 0 / 62%);
+  --shadow-panel: 0 10px 34px rgb(0 0 0 / 45%);
+  --glow-gold: 0 0 18px rgb(217 180 95 / 42%);
+  --glow-gold-strong: 0 0 34px rgb(217 180 95 / 68%);
+  --glow-spotlight: 0 0 120px 40px rgb(230 213 176 / 14%);
+
+  /* --- Tipografi ----------------------------------------------------------
+     Playfair Display untuk plakat, judul, dan angka statistik besar.
+     DM Sans untuk seluruh bacaan panjang.                                   */
+  --font-heading: 'Playfair Display', 'Iowan Old Style', 'Palatino Linotype',
+    Palatino, Georgia, 'Times New Roman', serif;
+  --font-body: 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI',
+    Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', 'JetBrains Mono', 'Cascadia Mono',
+    Menlo, Consolas, monospace;
+
+  /* Skala fluida: mengecil proporsional tanpa pemotongan kata canggung.     */
+  --text-display: clamp(2.25rem, 1.35rem + 4.5vw, 4.5rem);
+  --text-h1: clamp(1.75rem, 1.15rem + 3vw, 3.25rem);
+  --text-h2: clamp(1.45rem, 1.1rem + 1.75vw, 2.25rem);
+  --text-h3: clamp(1.2rem, 1.02rem + 0.9vw, 1.6rem);
+  --text-h4: clamp(1.05rem, 0.98rem + 0.36vw, 1.25rem);
+  --text-body: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
+  --text-sm: 0.9375rem;
+  --text-xs: 0.8125rem;
+  --text-stat: clamp(2.5rem, 1.6rem + 4vw, 4rem); /* angka emas besar        */
+
+  --leading-tight: 1.15;
+  --leading-snug: 1.35;
+  --leading-normal: 1.6;
+  --leading-relaxed: 1.75;  /* paragraf analisis panjang                     */
+
+  --tracking-plaque: 0.18em; /* plakat teater: kapital, renggang             */
+  --tracking-wide: 0.08em;
+  --tracking-normal: 0;
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  /* Lebar baca nyaman untuk paragraf analisis akademis.                     */
+  --measure: 68ch;
+  --measure-narrow: 54ch;
+
+  /* --- Spasi (skala 4 px) -------------------------------------------------- */
+  --space-2xs: 0.25rem;
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4.5rem;
+  --space-4xl: 6.5rem;
+
+  /* --- Radius -------------------------------------------------------------- */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 14px;
+  --radius-pill: 999px;
+
+  /* --- Ukuran layout ------------------------------------------------------- */
+  --container-max: 1320px;
+  --container-reading: 760px;   /* panel bacaan panjang                      */
+  --board-max: 480px;           /* papan catur: min(100%, 480px)             */
+  --touch-min: 44px;            /* target sentuh minimum WCAG                */
+  --header-height: 60px;
+  --progress-height: 3px;
+
+  /* --- Durasi & easing ------------------------------------------------------ */
+  --transition-fast: 200ms;
+  --transition-medium: 450ms;
+  --transition-slow: 800ms;
+  --transition-curtain: 1600ms;
+  --duration-intro: 6000ms;
+
+  --ease-stage: cubic-bezier(0.22, 0.61, 0.36, 1);    /* gerak panggung      */
+  --ease-curtain: cubic-bezier(0.65, 0, 0.35, 1);     /* tirai berat         */
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);   /* pantulan kecil      */
+
+  /* --- Z-index internal dokumen --------------------------------------------
+     Terpisah dari z-index container <iframe> di halaman induk.              */
+  --z-stage-wall: 1;
+  --z-stage-screen: 2;
+  --z-stage-backdrop: 3;
+  --z-stage-pieces-far: 4;
+  --z-stage-board: 5;
+  --z-stage-pieces-near: 6;
+  --z-stage-loges: 7;
+  --z-stage-dust: 8;
+  --z-stage-audience: 9;
+  --z-content: 20;
+  --z-progress: 60;
+  --z-header: 70;
+  --z-program: 80;
+  --z-modal-backdrop: 90;
+  --z-modal: 95;
+  --z-curtain: 100;
+  --z-intro: 110;
+  --z-cursor: 120;
+}
+
+/* Kurangi beban visual saat pengguna meminta gerakan minimal. Nilai durasi
+   dikosongkan di sini agar seluruh transisi CSS ikut patuh tanpa perlu
+   diubah satu per satu. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --transition-fast: 1ms;
+    --transition-medium: 1ms;
+    --transition-slow: 1ms;
+    --transition-curtain: 1ms;
+    --duration-intro: 1ms;
+  }
+}
+
+/* Kelas ini dipasang pada <html> oleh animation-controller.js ketika
+   pengunjung menekan tombol "Jeda Gerak". Efeknya sama dengan reduced
+   motion, tetapi dikendalikan manual. */
+html.motion-paused {
+  --transition-curtain: 1ms;
+  --duration-intro: 1ms;
+}

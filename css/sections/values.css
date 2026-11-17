@@ -1,0 +1,288 @@
+/* ============================================================================
+   values.css — Babak III: Promosi Pion
+   ============================================================================
+   Karakter visual: pion yang berkembang menjadi Ratu, dua panel berhadapan
+   seperti sepasang tirai, panel gading untuk paragraf analisis, dan spanduk
+   untuk nilai keteladanan.
+
+   ATURAN KONTEN: seluruh paragraf analisis tampil utuh. Accordion hanya
+   mengatur panjang tampilan; tidak ada uraian yang tersembunyi permanen.
+   ========================================================================= */
+
+/* --- Perjalanan pion sebagai pembuka babak --------------------------------- */
+.pawn-journey {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  width: min(100%, 520px);
+  margin: 0 auto var(--space-2xl);
+  aspect-ratio: 8 / 1;
+
+  border: var(--border-gold);
+  border-radius: var(--radius-xs);
+  overflow: hidden;
+}
+
+.pawn-journey__square {
+  display: grid;
+  place-items: center;
+  font-size: clamp(0.9rem, 3vw, 1.5rem);
+}
+
+.pawn-journey__square:nth-child(odd) { background: var(--color-antique-cream); }
+.pawn-journey__square:nth-child(even) { background: var(--color-crimson); }
+
+.pawn-journey__pawn {
+  color: var(--ink);
+  transition: transform var(--transition-slow) var(--ease-stage);
+}
+
+.pawn-journey__crown {
+  color: var(--gold-deep);
+  filter: drop-shadow(0 0 8px rgb(217 180 95 / 70%));
+}
+
+/* --- Dua panel berhadapan: Hak dan Kewajiban -------------------------------- */
+.values-panels {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(var(--space-lg), 3vw, var(--space-2xl));
+  align-items: start;
+}
+
+/* Tepi bergelombang yang meniru jatuhnya kain tirai. */
+.values-panel {
+  position: relative;
+  padding-block-start: var(--space-xl);
+}
+
+.values-panel::before {
+  content: '';
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline: 0;
+  height: 14px;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      var(--color-crimson) 0 14px,
+      var(--maroon-deep) 14px 28px
+    );
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  mask-image: radial-gradient(circle 8px at 7px 0, transparent 0 7px, #000 8px);
+  mask-size: 14px 14px;
+  mask-repeat: repeat-x;
+}
+
+.values-panel__header {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: center;
+  margin-block-end: var(--space-lg);
+}
+
+.values-panel__icon {
+  flex: 0 0 auto;
+  width: 28px;
+  height: 28px;
+  color: var(--color-old-gold);
+}
+
+/* --- Accordion submateri ----------------------------------------------------- */
+.analysis-item + .analysis-item {
+  margin-block-start: var(--space-md);
+}
+
+.analysis-item__toggle {
+  display: flex;
+  gap: var(--space-md);
+  align-items: baseline;
+  justify-content: space-between;
+  width: 100%;
+  min-height: var(--touch-min);
+  padding: var(--space-md);
+  text-align: start;
+
+  color: var(--ink);
+  background: rgb(184 147 63 / 10%);
+  border: 1px solid rgb(184 147 63 / 40%);
+  border-radius: var(--radius-sm);
+  transition: background-color var(--transition-fast) var(--ease-stage);
+}
+
+.analysis-item__toggle:hover {
+  background: rgb(184 147 63 / 18%);
+}
+
+.analysis-item__title {
+  font-family: var(--font-heading);
+  font-size: var(--text-h4);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+}
+
+.analysis-item__marker {
+  flex: 0 0 auto;
+  font-size: 1.25rem;
+  line-height: 1;
+  color: var(--gold-deep);
+  transition: transform var(--transition-fast) var(--ease-stage);
+}
+
+.analysis-item__toggle[aria-expanded='true'] .analysis-item__marker {
+  transform: rotate(45deg);
+}
+
+.analysis-item__body {
+  padding: var(--space-md) var(--space-md) 0;
+}
+
+/* --- Spanduk nilai keteladanan ------------------------------------------------ */
+.values-banners {
+  display: grid;
+  gap: var(--space-md);
+  margin-block-start: var(--space-lg);
+}
+
+.value-banner {
+  position: relative;
+  padding: var(--space-md) var(--space-xl);
+  text-align: start;
+
+  color: var(--color-ivory);
+  background: linear-gradient(90deg, var(--color-crimson), var(--maroon-deep));
+  border-block: 1px solid rgb(184 147 63 / 45%);
+  transition:
+    transform var(--transition-fast) var(--ease-spring),
+    box-shadow var(--transition-fast) var(--ease-stage);
+}
+
+/* Ekor spanduk berbentuk V di sisi kanan. */
+.value-banner::after {
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  inset-inline-end: -18px;
+  width: 18px;
+  background: inherit;
+  clip-path: polygon(0 0, 100% 0, 0 50%, 100% 100%, 0 100%);
+}
+
+.value-banner:hover,
+.value-banner[aria-pressed='true'] {
+  box-shadow: var(--glow-gold);
+  transform: translateX(6px);
+}
+
+.value-banner__number {
+  font-family: var(--font-heading);
+  font-size: var(--text-h3);
+  font-weight: var(--weight-bold);
+  color: var(--color-old-gold);
+}
+
+.value-banner__name {
+  display: block;
+  margin-block-start: var(--space-2xs);
+  font-family: var(--font-heading);
+  font-size: var(--text-h4);
+  letter-spacing: var(--tracking-wide);
+}
+
+/* --- Pemetaan Pancasila --------------------------------------------------------
+   Diberi label jelas sebagai lapisan interpretasi, bukan kutipan sumber.   */
+.sila-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
+  gap: var(--space-sm);
+  margin-block-end: var(--space-lg);
+}
+
+.sila-chip {
+  min-height: var(--touch-min);
+  padding: var(--space-md);
+  text-align: start;
+
+  color: var(--text-on-dark);
+  background: rgb(27 17 19 / 80%);
+  border: var(--border-gold-faint);
+  border-radius: var(--radius-sm);
+  transition:
+    border-color var(--transition-fast) var(--ease-stage),
+    background-color var(--transition-fast) var(--ease-stage);
+}
+
+.sila-chip:hover {
+  border-color: var(--color-old-gold);
+}
+
+.sila-chip[aria-selected='true'] {
+  background: rgb(107 15 26 / 60%);
+  border-color: var(--gold-bright);
+}
+
+.sila-chip__ordinal {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-plaque);
+  text-transform: uppercase;
+  color: var(--color-old-gold);
+}
+
+.sila-chip__text {
+  display: block;
+  margin-block-start: var(--space-2xs);
+  font-size: var(--text-sm);
+  line-height: var(--leading-snug);
+}
+
+/* Label asal materi: membedakan naskah sumber dari interpretasi penyusun. */
+.provenance {
+  display: inline-flex;
+  gap: var(--space-2xs);
+  align-items: center;
+  padding: 2px var(--space-sm);
+  margin-block-end: var(--space-md);
+
+  font-family: var(--font-heading);
+  font-size: 0.6875rem;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  border-radius: var(--radius-pill);
+}
+
+.provenance--source {
+  color: #1f4a2c;
+  background: rgb(63 122 77 / 20%);
+  border: 1px solid rgb(63 122 77 / 55%);
+}
+
+.provenance--interpretation {
+  color: var(--gold-deep);
+  background: rgb(184 147 63 / 16%);
+  border: 1px solid rgb(184 147 63 / 55%);
+}
+
+/* --- Panel refleksi penutup ------------------------------------------------------ */
+.reflection {
+  margin-block-start: var(--space-2xl);
+}
+
+.reflection__question {
+  padding: var(--space-md) var(--space-lg);
+  margin-block-end: var(--space-md);
+
+  font-family: var(--font-heading);
+  font-size: var(--text-h4);
+  font-style: italic;
+  line-height: var(--leading-snug);
+  color: var(--ink);
+
+  background: rgb(184 147 63 / 10%);
+  border-inline-start: 3px solid var(--color-old-gold);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+.reflection__note {
+  margin-block-start: var(--space-md);
+}

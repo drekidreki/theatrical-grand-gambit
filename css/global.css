@@ -1,0 +1,134 @@
+/* ============================================================================
+   global.css — Dasar dokumen, scroll mandiri, dan fokus keyboard
+   ============================================================================
+   PENTING — PENGELOLAAN SCROLL DI DALAM IFRAME
+   Halaman induk menyematkan aplikasi ini dengan <iframe style="overflow:hidden">.
+   Agar tidak muncul double scrollbar, dokumen ini menetapkan TEPAT SATU
+   kontainer scroll, yaitu <body>. <html> sengaja dikunci overflow:hidden.
+
+   Konsekuensi untuk JavaScript: posisi scroll dibaca dari document.body,
+   bukan dari window.scrollY. Lihat js/utils/helpers.js -> getScroller().
+   ========================================================================= */
+
+html {
+  height: 100%;
+  overflow: hidden;              /* kunci; body yang menggulir */
+  color-scheme: dark;
+}
+
+body {
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;  /* momentum scroll iOS Safari */
+  overscroll-behavior-y: contain;     /* cegah scroll bocor ke halaman induk */
+
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-normal);
+
+  color: var(--text-on-dark);
+  background-color: var(--surface-stage);
+
+  /* Tekstur dinding teater: dua sorot lampu lembut di atas marun pekat. */
+  background-image:
+    radial-gradient(ellipse 80% 55% at 50% -10%, rgb(107 15 26 / 45%) 0%, transparent 62%),
+    radial-gradient(ellipse 60% 45% at 50% 115%, rgb(58 10 18 / 60%) 0%, transparent 70%);
+  background-attachment: local;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body {
+    scroll-behavior: auto;
+  }
+}
+
+/* --- Fokus keyboard -------------------------------------------------------
+   Indikator harus jelas di atas latar gelap maupun panel gading, dan harus
+   tetap terlihat saat aplikasi berjalan di dalam <iframe>.               */
+:focus-visible {
+  outline: 2px solid var(--gold-bright);
+  outline-offset: 3px;
+  border-radius: var(--radius-xs);
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* --- Seleksi teks --------------------------------------------------------- */
+::selection {
+  color: var(--color-theater);
+  background-color: var(--gold-bright);
+}
+
+/* --- Scrollbar bergaya teater --------------------------------------------- */
+body::-webkit-scrollbar {
+  width: 10px;
+}
+
+body::-webkit-scrollbar-track {
+  background: var(--maroon-deep);
+}
+
+body::-webkit-scrollbar-thumb {
+  background: var(--gold-deep);
+  border: 2px solid var(--maroon-deep);
+  border-radius: var(--radius-pill);
+}
+
+body::-webkit-scrollbar-thumb:hover {
+  background: var(--color-old-gold);
+}
+
+body {
+  scrollbar-width: thin;
+  scrollbar-color: var(--gold-deep) var(--maroon-deep);
+}
+
+/* --- Lompat ke konten (tautan pertama bagi pengguna keyboard) ------------- */
+.skip-link {
+  position: absolute;
+  top: var(--space-xs);
+  left: var(--space-xs);
+  z-index: var(--z-cursor);
+  padding: var(--space-sm) var(--space-md);
+  font-family: var(--font-heading);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-theater);
+  background: var(--gold-bright);
+  border-radius: var(--radius-sm);
+  transform: translateY(-200%);
+  transition: transform var(--transition-fast) var(--ease-stage);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+/* --- Status pemuatan aset -------------------------------------------------
+   Ditampilkan hanya bila ada proses nyata. Tidak pernah menampilkan
+   persentase palsu (lihat konsep bagian Loading State).                  */
+.is-hidden {
+  display: none !important;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* --- Kelas utilitas warna panel ------------------------------------------
+   Satu-satunya tempat teks bacaan panjang boleh tinggal.                 */
+.panel-ivory {
+  color: var(--text-on-panel);
+  background-color: var(--surface-panel);
+}
+
+.panel-cream {
+  color: var(--text-on-panel);
+  background-color: var(--surface-panel-alt);
+}

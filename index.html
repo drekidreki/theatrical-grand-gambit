@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>The Theatrical Grand Gambit — Irene Kharisma Sukandar</title>
+  <meta name="description"
+        content="Pertunjukan web interaktif tentang perjalanan karier, olahraga catur, kajian Pendidikan Pancasila, dan analisis statistik rating Elo Grandmaster catur Indonesia Irene Kharisma Sukandar.">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#0E0A0B">
+
+  <!-- Font. Dimuat dari Google Fonts dengan tumpukan cadangan serif/sans di
+       variables.css, sehingga halaman tetap terbaca bila CDN font gagal. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&display=swap">
+
+  <!-- Stylesheet modular. Urutan wajib: token dulu, responsive terakhir. -->
+  <link rel="stylesheet" href="./css/reset.css">
+  <link rel="stylesheet" href="./css/variables.css">
+  <link rel="stylesheet" href="./css/typography.css">
+  <link rel="stylesheet" href="./css/global.css">
+  <link rel="stylesheet" href="./css/layout.css">
+  <link rel="stylesheet" href="./css/animations.css">
+  <link rel="stylesheet" href="./css/sections/grand-stage.css">
+  <link rel="stylesheet" href="./css/sections/the-portrait.css">
+  <link rel="stylesheet" href="./css/sections/chess-arena.css">
+  <link rel="stylesheet" href="./css/sections/values.css">
+  <link rel="stylesheet" href="./css/sections/statistics.css">
+  <link rel="stylesheet" href="./css/responsive.css">
+</head>
+
+<body>
+  <a class="skip-link" href="#main-content">Lompat ke konten utama</a>
+
+  <!-- ======================================================================
+       INTRO — THE OPENING CURTAIN
+       Durasi sekitar 6 detik, selalu dapat dilewati. Dibangun di markup
+       (bukan disuntik JavaScript) agar tetap muncul bila GSAP gagal dimuat.
+       =================================================================== -->
+  <div class="intro" id="intro" role="dialog" aria-label="Pembukaan pertunjukan" aria-modal="false">
+    <div class="intro__spotlight" aria-hidden="true"></div>
+
+    <div class="intro__curtain intro__curtain--left" aria-hidden="true"></div>
+    <div class="intro__curtain intro__curtain--right" aria-hidden="true"></div>
+
+    <div class="intro__content">
+      <p class="eyebrow intro__kicker">Pertunjukan akan dimulai</p>
+      <p class="intro__counter" id="intro-counter" aria-live="off">0</p>
+    </div>
+
+    <button class="btn btn--ghost intro__skip" id="intro-skip" type="button">
+      Lewati Intro
+    </button>
+  </div>
+
+  <!-- ======================================================================
+       BILAH PROGRES MEMBACA
+       =================================================================== -->
+  <div class="reading-progress" aria-hidden="true">
+    <div class="reading-progress__bar" id="reading-progress-bar"></div>
+  </div>
+
+  <!-- ======================================================================
+       HEADER TETAP
+       =================================================================== -->
+  <header class="stage-header" id="stage-header">
+    <a class="stage-header__brand" href="#grand-stage" data-nav-target="grand-stage">
+      <svg class="brand-mark" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path fill="currentColor"
+              d="M12 2a3 3 0 0 0-2.6 4.5H7.2L6 9.3h2.1c-.3 2.6-1.4 4-2.7 5.2L5 19h14l-.4-4.5c-1.3-1.2-2.4-2.6-2.7-5.2H18l-1.2-2.8h-2.2A3 3 0 0 0 12 2ZM4.6 20.2 4.3 22h15.4l-.3-1.8H4.6Z" />
+      </svg>
+      <span>The Theatrical Grand Gambit</span>
+    </a>
+
+    <div class="stage-header__controls">
+      <button class="btn btn--ghost btn--sm" id="btn-back-to-stage" type="button" hidden>
+        Kembali ke Panggung
+      </button>
+
+      <button class="btn btn--ghost btn--sm icon-btn" id="btn-pause-motion" type="button"
+              aria-pressed="false" title="Hentikan seluruh animasi dekoratif">
+        <span class="icon-btn__label">Jeda Gerak</span>
+      </button>
+
+      <button class="btn btn--ghost btn--sm icon-btn" id="btn-sound" type="button"
+              aria-pressed="false" title="Nyalakan atau matikan suara latar">
+        <span class="icon-btn__label">Suara</span>
+      </button>
+
+      <button class="btn btn--gold btn--sm" id="btn-program" type="button"
+              aria-expanded="false" aria-controls="program-acara">
+        Program Acara
+      </button>
+    </div>
+  </header>
+
+  <!-- ======================================================================
+       KONTEN UTAMA
+       Satu dokumen, lima bagian. Bagian non-aktif memakai atribut hidden
+       supaya ikut keluar dari urutan fokus keyboard.
+       =================================================================== -->
+  <main id="main-content">
+
+    <!-- ====================================================================
+         BERANDA — GRAND STAGE
+         ================================================================= -->
+    <section class="act act--stage is-active" id="grand-stage" aria-label="Panggung utama">
+      <div class="grand-stage">
+
+        <!-- Lapisan dekoratif panggung. Seluruhnya aria-hidden karena murni
+             visual; navigasi sesungguhnya ada di loge dan Program Acara. -->
+        <div class="grand-stage__proscenium" id="stage-parallax">
+
+          <div class="stage-layer stage-layer--wall" data-depth="0.02" aria-hidden="true"></div>
+
+          <div class="stage-layer stage-layer--chandelier anim-swing" data-depth="0.05" aria-hidden="true">
+            <div class="chandelier"></div>
+          </div>
+
+          <!-- Layar proyeksi: notasi catur dan panah taktik -->
+          <div class="stage-layer stage-layer--screen" data-depth="0.08" aria-hidden="true">
+            <div class="projection-screen" id="projection-screen">
+              <span class="projection-screen__notation notation" id="projection-notation">E2 — E4</span>
+            </div>
+          </div>
+
+          <div class="stage-layer stage-layer--backdrop" data-depth="0.12" aria-hidden="true"></div>
+
+          <!-- Bidak melayang jauh -->
+          <div class="stage-layer stage-layer--pieces-far" data-depth="0.18"
+               id="floating-pieces-far" aria-hidden="true"></div>
+
+          <!-- Lantai papan catur -->
+          <div class="stage-layer stage-layer--board" data-depth="0.26" aria-hidden="true">
+            <div class="stage-floor" id="stage-floor"></div>
+          </div>
+
+          <!-- Bidak raksasa yang dapat diklik -->
+          <div class="stage-layer stage-layer--pieces-near" data-depth="0.34" id="giant-pieces"></div>
+
+          <!-- Tirai samping -->
+          <div class="stage-layer stage-layer--curtains" data-depth="0.42" aria-hidden="true">
+            <div class="side-curtain side-curtain--left anim-sway"></div>
+            <div class="side-curtain side-curtain--right anim-sway"></div>
+          </div>
+
+          <!-- Debu dalam berkas cahaya -->
+          <div class="stage-layer stage-layer--dust" data-depth="0.5" id="dust-layer" aria-hidden="true"></div>
+
+          <!-- Siluet penonton -->
+          <div class="stage-layer stage-layer--audience" data-depth="0.6" aria-hidden="true">
+            <div class="audience-silhouette"></div>
+          </div>
+
+          <!-- Sorotan yang mengikuti kursor -->
+          <div class="stage-spotlight" id="stage-spotlight" aria-hidden="true"></div>
+
+          <!-- ============================================================
+               EMPAT LOGE — navigasi utama
+               Dibuat sebagai <button> sungguhan agar dapat dicapai Tab dan
+               dijalankan dengan Enter tanpa bergantung pada gambar.
+               ========================================================= -->
+          <nav class="loges" aria-label="Empat babak pertunjukan">
+
+            <button class="loge loge--top-left" type="button" data-nav-target="act-tokoh"
+                    aria-describedby="loge-tokoh-desc">
+              <span class="loge__curtain" aria-hidden="true"></span>
+              <span class="loge__scene loge__scene--tokoh" aria-hidden="true"></span>
+              <span class="loge__frame" aria-hidden="true"></span>
+              <span class="plaque loge__plaque">Babak I · Sang Tokoh</span>
+              <span class="loge__indicator" aria-hidden="true"></span>
+              <span class="visually-hidden" id="loge-tokoh-desc">
+                Infografis, video dokumenter, dan perjalanan hidup Irene Kharisma Sukandar.
+              </span>
+            </button>
+
+            <button class="loge loge--top-right" type="button" data-nav-target="act-ratu"
+                    aria-describedby="loge-ratu-desc">
+              <span class="loge__curtain" aria-hidden="true"></span>
+              <span class="loge__scene loge__scene--ratu" aria-hidden="true"></span>
+              <span class="loge__frame" aria-hidden="true"></span>
+              <span class="plaque loge__plaque">Sang Ratu · Angka Berbicara</span>
+              <span class="loge__indicator" aria-hidden="true"></span>
+              <span class="visually-hidden" id="loge-ratu-desc">
+                Analisis matematika rating Elo, grafik perkembangan, dan kalkulator Elo.
+              </span>
+            </button>
+
+            <button class="loge loge--bottom-left" type="button" data-nav-target="act-arena"
+                    aria-describedby="loge-arena-desc">
+              <span class="loge__curtain" aria-hidden="true"></span>
+              <span class="loge__scene loge__scene--arena" aria-hidden="true"></span>
+              <span class="loge__frame" aria-hidden="true"></span>
+              <span class="plaque loge__plaque">Arena Pikir</span>
+              <span class="loge__indicator" aria-hidden="true"></span>
+              <span class="visually-hidden" id="loge-arena-desc">
+                Peraturan catur, pergerakan bidak, papan interaktif, dan tiga fase permainan.
+              </span>
+            </button>
+
+            <button class="loge loge--bottom-right" type="button" data-nav-target="act-pion"
+                    aria-describedby="loge-pion-desc">
+              <span class="loge__curtain" aria-hidden="true"></span>
+              <span class="loge__scene loge__scene--pion" aria-hidden="true"></span>
+              <span class="loge__frame" aria-hidden="true"></span>
+              <span class="plaque loge__plaque">Promosi Pion · Teladan</span>
+              <span class="loge__indicator" aria-hidden="true"></span>
+              <span class="visually-hidden" id="loge-pion-desc">
+                Analisis hak, kewajiban, nilai keteladanan, dan pemetaan Pancasila.
+              </span>
+            </button>
+
+          </nav>
+        </div>
+
+        <!-- Plakat judul dan ajakan masuk -->
+        <div class="grand-stage__title-block">
+          <p class="eyebrow">Sebuah pertunjukan dalam empat babak</p>
+          <h1 class="display heading-gold grand-stage__title">Strategi Terkuak</h1>
+          <p class="lede lede--on-dark grand-stage__lede">
+            Perjalanan karier, olahraga catur, nilai keteladanan, dan angka-angka
+            di balik Grandmaster catur Indonesia, Irene Kharisma Sukandar.
+          </p>
+          <p class="grand-stage__motto"><em>Every Move Has a Purpose</em></p>
+
+          <div class="grand-stage__actions">
+            <button class="btn btn--gold" type="button" data-nav-target="act-tokoh">
+              Mulai Pertunjukan
+            </button>
+            <button class="btn btn--ghost" type="button" id="btn-open-program-hero"
+                    aria-controls="program-acara">
+              Lihat Program Acara
+            </button>
+          </div>
+
+          <!-- Jurnal progres eksplorasi -->
+          <aside class="journal" id="journal" aria-label="Jurnal eksplorasi">
+            <h2 class="eyebrow journal__title">The Grandmaster&rsquo;s Journal</h2>
+            <ul class="journal__list" id="journal-list" role="list"></ul>
+            <p class="journal__progress">
+              <span id="journal-percent">0%</span> dijelajahi
+            </p>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         BABAK I — SANG TOKOH
+         ================================================================= -->
+    <section class="act act--tokoh" id="act-tokoh" aria-labelledby="act-tokoh-title" hidden>
+      <div class="container">
+        <header class="act-header">
+          <p class="plaque act-header__plaque">Babak I</p>
+          <h1 class="heading-1 heading-gold act-header__title" id="act-tokoh-title">Sang Tokoh</h1>
+          <p class="act-header__subtitle">The Portrait of a Grandmaster</p>
+        </header>
+
+        <div class="act-body" id="tokoh-body"></div>
+
+        <footer class="act-footer" data-act-footer="act-tokoh"></footer>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         BABAK II — ARENA PIKIR
+         ================================================================= -->
+    <section class="act act--arena" id="act-arena" aria-labelledby="act-arena-title" hidden>
+      <div class="container">
+        <header class="act-header">
+          <p class="plaque act-header__plaque">Babak II</p>
+          <h1 class="heading-1 heading-gold act-header__title" id="act-arena-title">Arena Pikir</h1>
+          <p class="act-header__subtitle">The Chess Arena</p>
+        </header>
+
+        <div class="act-body" id="arena-body"></div>
+
+        <footer class="act-footer" data-act-footer="act-arena"></footer>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         BABAK III — PROMOSI PION
+         ================================================================= -->
+    <section class="act act--pion" id="act-pion" aria-labelledby="act-pion-title" hidden>
+      <div class="container">
+        <header class="act-header">
+          <p class="plaque act-header__plaque">Babak III</p>
+          <h1 class="heading-1 heading-gold act-header__title" id="act-pion-title">Promosi Pion</h1>
+          <p class="act-header__subtitle">The Values of a Champion</p>
+        </header>
+
+        <div class="act-body" id="pion-body"></div>
+
+        <footer class="act-footer" data-act-footer="act-pion"></footer>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         BABAK IV — SANG RATU
+         ================================================================= -->
+    <section class="act act--ratu" id="act-ratu" aria-labelledby="act-ratu-title" hidden>
+      <div class="container">
+        <header class="act-header">
+          <p class="plaque act-header__plaque">Babak IV</p>
+          <h1 class="heading-1 heading-gold act-header__title" id="act-ratu-title">Sang Ratu</h1>
+          <p class="act-header__subtitle">The Numbers Speak</p>
+        </header>
+
+        <div class="act-body" id="ratu-body"></div>
+
+        <footer class="act-footer" data-act-footer="act-ratu"></footer>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ======================================================================
+       PROGRAM ACARA — navigasi global bergaya buklet pertunjukan
+       =================================================================== -->
+  <div class="program__backdrop" id="program-backdrop" hidden></div>
+
+  <nav class="program" id="program-acara" aria-label="Program Acara" aria-hidden="true">
+    <div class="program__head">
+      <p class="eyebrow">Program Acara</p>
+      <button class="btn btn--ghost btn--sm" id="btn-program-close" type="button">Tutup</button>
+    </div>
+
+    <p class="program__intro">
+      Buklet pertunjukan. Pilih babak mana pun tanpa harus kembali ke panggung.
+    </p>
+
+    <div class="program__list" id="program-list" role="list"></div>
+
+    <div class="program__foot">
+      <button class="btn btn--ghost btn--sm" type="button" data-nav-target="grand-stage">
+        Kembali ke Panggung
+      </button>
+      <button class="btn btn--gold btn--sm" type="button" id="btn-final-curtain">
+        Akhiri Pertunjukan
+      </button>
+    </div>
+  </nav>
+
+  <!-- ======================================================================
+       FINAL CURTAIN — pengalaman penutup opsional
+       =================================================================== -->
+  <div class="final-curtain" id="final-curtain" role="dialog"
+       aria-labelledby="final-curtain-title" aria-modal="true" hidden></div>
+
+  <!-- Wadah modal dan lightbox, diisi oleh modul fitur. -->
+  <div id="modal-root"></div>
+
+  <!-- Kursor emas kustom (dinonaktifkan pada perangkat sentuh). -->
+  <div class="custom-cursor" id="custom-cursor" aria-hidden="true"></div>
+
+  <!-- Pengumuman untuk pembaca layar saat berpindah babak. -->
+  <p class="visually-hidden" id="route-announcer" role="status" aria-live="polite"></p>
+
+  <!-- ======================================================================
+       PUSTAKA PIHAK KETIGA
+       Ketiganya DISIMPAN LOKAL di ./assets/vendor/, bukan dimuat dari CDN.
+
+       Alasannya: aplikasi ini dijalankan di dalam <iframe> lintas domain dan
+       sering diakses dari jaringan sekolah. Setiap CDN adalah satu titik
+       gagal tambahan di luar kendali kita — pengujian nyata di lingkungan
+       berproksi memperlihatkan ketiga CDN terblokir sekaligus. Dengan
+       disimpan lokal, pustaka ini berasal dari origin yang sama dengan
+       halamannya, sehingga ikut hidup atau mati bersama aplikasinya.
+
+       Jalur cadangan tetap dipertahankan sebagai pengaman lapis kedua:
+         GSAP gagal     -> animasi memakai CSS, intro tetap selesai
+         Chart.js gagal -> grafik Elo berganti menjadi tabel ringkasan
+         chess.js gagal -> validasi memakai mesin internal chess-engine.js
+       =================================================================== -->
+  <script>
+    window.TGG_LIBS = { gsap: false, chart: false, chess: false };
+  </script>
+
+  <script defer src="./assets/vendor/gsap.min.js"
+          onload="window.TGG_LIBS.gsap = true"
+          onerror="console.warn('[TGG] GSAP gagal dimuat — animasi memakai CSS saja.')"></script>
+
+  <script defer src="./assets/vendor/chart.umd.min.js"
+          onload="window.TGG_LIBS.chart = true"
+          onerror="console.warn('[TGG] Chart.js gagal dimuat — grafik Elo memakai tabel cadangan.')"></script>
+
+  <script defer src="./assets/vendor/chess.min.js"
+          onload="window.TGG_LIBS.chess = true"
+          onerror="console.warn('[TGG] chess.js gagal dimuat — memakai validator internal.')"></script>
+
+  <!-- Titik masuk aplikasi. -->
+  <script type="module" src="./js/main.js"></script>
+</body>
+</html>

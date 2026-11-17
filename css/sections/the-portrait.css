@@ -1,0 +1,218 @@
+/* ============================================================================
+   the-portrait.css — Babak I: Sang Tokoh
+   ============================================================================
+   Karakter visual: poster teater, bingkai foto klasik, layar proyektor.
+   Infografis dan video adalah aset yang disediakan pembuat website; di sini
+   hanya disediakan bingkai dan pemutarnya.
+   ========================================================================= */
+
+/* --- Poster infografis ------------------------------------------------------ */
+.poster-frame {
+  position: relative;
+  max-width: 820px;
+  margin-inline: auto;
+  padding: clamp(var(--space-md), 2.5vw, var(--space-xl));
+
+  background: linear-gradient(170deg, var(--color-maroon), var(--maroon-deep));
+  border: var(--border-gold-thick);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Paku penggantung poster di kedua sudut atas. */
+.poster-frame::before,
+.poster-frame::after {
+  content: '';
+  position: absolute;
+  inset-block-start: 10px;
+  width: 9px;
+  height: 9px;
+  background: var(--gradient-gold);
+  border-radius: 50%;
+  box-shadow: var(--shadow-sm);
+}
+
+.poster-frame::before { inset-inline-start: 10px; }
+.poster-frame::after { inset-inline-end: 10px; }
+
+.poster-frame__caption {
+  margin-block-start: var(--space-md);
+  text-align: center;
+}
+
+/* Gambar infografis asli — rasio asli dipertahankan, tidak pernah dipotong. */
+.infographic {
+  display: block;
+  width: 100%;
+  height: auto;
+  cursor: zoom-in;
+  background: var(--surface-panel);
+  border: 1px solid rgb(184 147 63 / 40%);
+}
+
+/* --- Lightbox infografis ---------------------------------------------------- */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  background: rgb(8 5 6 / 94%);
+}
+
+.lightbox__bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  align-items: center;
+  justify-content: space-between;
+}
+
+.lightbox__stage {
+  display: grid;
+  place-items: center;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.lightbox__img {
+  max-width: none;
+  transition: transform var(--transition-fast) var(--ease-stage);
+  transform-origin: center center;
+}
+
+.lightbox__zoom-level {
+  min-width: 4ch;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  text-align: center;
+  color: var(--color-old-gold);
+}
+
+/* --- Bingkai video bergaya proyektor ---------------------------------------- */
+.projector {
+  position: relative;
+  max-width: 820px;
+  margin-inline: auto;
+  padding: clamp(var(--space-sm), 2vw, var(--space-lg));
+
+  background: linear-gradient(180deg, #16100f, var(--color-theater));
+  border: var(--border-gold-thick);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-lg), 0 0 60px -20px rgb(217 180 95 / 35%);
+}
+
+.projector__screen {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #000;
+  border: 1px solid rgb(184 147 63 / 35%);
+}
+
+.projector__screen video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Berkas cahaya proyektor dari sudut atas. */
+.projector::before {
+  content: '';
+  position: absolute;
+  inset-block-start: -48px;
+  inset-inline-start: 12%;
+  width: 40%;
+  height: 60px;
+  pointer-events: none;
+  background: linear-gradient(190deg, rgb(230 213 176 / 16%), transparent 72%);
+  clip-path: polygon(0 0, 100% 0, 78% 100%, 18% 100%);
+}
+
+.projector__caption {
+  margin-block-start: var(--space-md);
+  text-align: center;
+}
+
+/* --- Lini masa perjalanan hidup --------------------------------------------- */
+.life-timeline {
+  position: relative;
+  margin-block-start: var(--space-xl);
+  padding-inline-start: var(--space-xl);
+}
+
+.life-timeline::before {
+  content: '';
+  position: absolute;
+  inset-block: 6px 0;
+  inset-inline-start: 7px;
+  width: 2px;
+  background: linear-gradient(180deg, var(--color-old-gold), transparent);
+}
+
+.life-timeline__item {
+  position: relative;
+  padding-block-end: var(--space-xl);
+}
+
+.life-timeline__item::before {
+  content: '';
+  position: absolute;
+  inset-block-start: 6px;
+  inset-inline-start: calc(var(--space-xl) * -1 + 3px);
+  width: 11px;
+  height: 11px;
+  background: var(--gradient-gold);
+  border-radius: 50%;
+  box-shadow: var(--glow-gold);
+}
+
+.life-timeline__year {
+  font-family: var(--font-heading);
+  font-size: var(--text-h3);
+  font-weight: var(--weight-bold);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-old-gold);
+}
+
+.life-timeline__body {
+  margin-block-start: var(--space-xs);
+  max-width: var(--measure);
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+  color: var(--text-on-dark-soft);
+}
+
+/* --- Kartu profil singkat ----------------------------------------------------- */
+.profile-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+  gap: var(--space-md);
+  margin-block-start: var(--space-lg);
+}
+
+.profile-fact {
+  padding: var(--space-md);
+  background: rgb(184 147 63 / 8%);
+  border-inline-start: 3px solid var(--color-old-gold);
+  border-radius: var(--radius-xs);
+}
+
+.profile-fact__label {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-plaque);
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.profile-fact__value {
+  display: block;
+  margin-block-start: var(--space-2xs);
+  font-size: var(--text-body);
+  font-weight: var(--weight-medium);
+  color: var(--ink);
+}

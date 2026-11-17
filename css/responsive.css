@@ -1,0 +1,235 @@
+/* ============================================================================
+   responsive.css — Media query untuk mobile, tablet, dan desktop
+   ============================================================================
+   Titik uji wajib: 360, 390, 430, 768, 1024, dan 1440 px.
+
+   File ini dimuat PALING AKHIR agar dapat menimpa gaya dasar tanpa perlu
+   selector yang semakin spesifik.
+   ========================================================================= */
+
+/* ===========================================================================
+   TABLET — hingga 1023 px
+   Komposisi panggung dipertahankan selama ruang masih cukup, ornamen
+   dekoratif mulai dikurangi.
+   ======================================================================== */
+@media (max-width: 1023px) {
+  .grid--3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .act {
+    padding-block: var(--space-2xl) var(--space-3xl);
+  }
+
+  /* Panel berdampingan menjadi satu kolom lebih awal agar teks analisis
+     tetap punya ruang napas. */
+  .values-panels {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* Papan catur dan panel kontrolnya ditumpuk. */
+  .arena-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ===========================================================================
+   MOBILE — hingga 767 px
+   Panggung tampil vertikal, empat loge menjadi kartu sentuh besar.
+   ======================================================================== */
+@media (max-width: 767px) {
+  :root {
+    --space-3xl: 3rem;
+    --space-4xl: 4rem;
+  }
+
+  .grid--2,
+  .grid--3 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* Panggung: dari komposisi teater menjadi tumpukan vertikal. */
+  .grand-stage {
+    display: flex;
+    flex-direction: column;
+    min-height: auto;
+    padding-block-end: var(--space-2xl);
+  }
+
+  .grand-stage__proscenium {
+    order: 1;
+    aspect-ratio: 16 / 10;
+    min-height: 220px;
+  }
+
+  .grand-stage__title-block {
+    order: 2;
+    padding-block: var(--space-xl);
+    text-align: center;
+  }
+
+  /* Empat loge: dari posisi sudut menjadi kartu berurutan. */
+  .loges {
+    order: 3;
+    position: static;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-md);
+    padding-inline: var(--space-md);
+  }
+
+  .loge {
+    position: static;
+    width: 100%;
+    min-height: 132px;
+    transform: none !important;
+  }
+
+  .loge__scene {
+    display: none; /* adegan mini terlalu kecil untuk layar ini */
+  }
+
+  /* Program Acara menempati seluruh lebar. */
+  .program {
+    width: 100%;
+  }
+
+  /* Navigasi tiket maju-mundur ditumpuk agar target sentuh tetap lega. */
+  .act-nav {
+    flex-direction: column;
+  }
+
+  .act-nav__ticket--next {
+    text-align: start;
+  }
+
+  /* Kartu tiket: takik dihilangkan karena memakan lebar berharga. */
+  .ticket {
+    padding-inline: var(--space-lg);
+  }
+
+  .ticket::before,
+  .ticket::after {
+    display: none;
+  }
+
+  .panel {
+    padding: var(--space-lg) var(--space-md);
+  }
+
+  /* Grafik Elo diberi tinggi tetap agar tidak gepeng. */
+  .elo-chart__canvas-wrap {
+    height: 300px;
+  }
+
+  /* Header: judul brand disembunyikan, sisakan kontrol. */
+  .stage-header__brand span {
+    display: none;
+  }
+}
+
+/* ===========================================================================
+   MOBILE KECIL — hingga 400 px (uji 360 dan 390 px)
+   ======================================================================== */
+@media (max-width: 400px) {
+  .container {
+    padding-inline: var(--space-md);
+  }
+
+  .btn {
+    padding-inline: var(--space-md);
+  }
+
+  /* Papan catur tetap persegi dan tidak pernah melebar keluar layar. */
+  .chessboard {
+    width: 100%;
+  }
+
+  .chessboard__coord {
+    font-size: 0.5rem;
+  }
+
+  .stat-number,
+  .ticket__value {
+    font-size: 2.25rem;
+  }
+}
+
+/* ===========================================================================
+   DESKTOP LEBAR — 1440 px ke atas
+   ======================================================================== */
+@media (min-width: 1440px) {
+  .arena-layout {
+    grid-template-columns: minmax(0, var(--board-max)) minmax(0, 1fr);
+  }
+}
+
+/* ===========================================================================
+   PERANGKAT SENTUH
+   Tidak ada informasi penting yang hanya muncul lewat :hover.
+   ======================================================================== */
+@media (hover: none) {
+  /* Sorotan pengikut kursor tidak relevan tanpa kursor. */
+  .stage-spotlight {
+    display: none;
+  }
+
+  /* Kursor emas kustom dimatikan. */
+  .custom-cursor {
+    display: none;
+  }
+
+  /* Indikator "dapat dibuka" pada loge ditampilkan permanen, bukan saat
+     hover, karena pengguna sentuh tidak punya keadaan hover. */
+  .loge__indicator {
+    opacity: 1;
+  }
+}
+
+/* ===========================================================================
+   LAYAR PENDEK (mis. ponsel lanskap di dalam iframe)
+   ======================================================================== */
+@media (max-height: 520px) and (orientation: landscape) {
+  .grand-stage {
+    min-height: auto;
+  }
+
+  .intro {
+    font-size: 0.875rem;
+  }
+}
+
+/* ===========================================================================
+   CETAK — materi akademis harus tetap bisa dicetak guru
+   ======================================================================== */
+@media print {
+  .stage-header,
+  .program,
+  .program__backdrop,
+  .reading-progress,
+  .intro,
+  .curtain,
+  .act-nav,
+  .custom-cursor,
+  .stage-spotlight {
+    display: none !important;
+  }
+
+  html,
+  body {
+    height: auto;
+    overflow: visible;
+    color: #000;
+    background: #fff;
+  }
+
+  .act {
+    display: block !important;
+    page-break-after: always;
+  }
+
+  .panel {
+    border: 1px solid #999;
+    box-shadow: none;
+  }
+}
