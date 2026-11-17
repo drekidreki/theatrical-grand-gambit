@@ -149,7 +149,7 @@ export const requiredAssets = Object.freeze({
       'desainnya; website hanya menampilkan gambar yang disediakan.',
   },
   video: {
-    path: '/assets/videos/irene-documentary.mp4',
+    path: '/assets/videos/irene-documentary.mp4?v=2',
     poster: '/assets/images/irene/video-poster.webp',
     label: 'Video dokumenter singkat',
     hint:

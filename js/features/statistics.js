@@ -445,12 +445,6 @@ function dataGapSection() {
     el('span', { class: 'data-gap-note__title', text: 'Batas data yang perlu Anda ketahui' }),
     el('p', {
       style: 'margin-block-end:.75rem',
-      text:
-        `Ekspor sumber memiliki ${stats.dataGaps.length} rentang periode yang kosong ` +
-        'padahal kategorinya aktif dicatat sebelum dan sesudahnya. Kemungkinan besar ' +
-        'ekspornya tidak lengkap, bukan rating yang dihentikan. Periode-periode ini ' +
-        'disimpan sebagai nilai kosong dan garis grafiknya sengaja diputus, bukan ' +
-        'ditambal dengan angka perkiraan.',
     }),
     el('ul', { style: 'padding-inline-start:1.1rem' },
       stats.dataGaps.map((gap) =>

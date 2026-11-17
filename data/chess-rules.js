@@ -286,8 +286,6 @@ export const endConditions = Object.freeze({
       {
         label: 'Pengulangan Posisi Tiga Kali (Threefold Repetition)',
         text: 'Posisi bidak yang persis sama di atas papan terjadi sebanyak 3 kali dengan giliran jalan pemain yang sama.',
-        verifyNote:
-          'Dokumen sumber menulis "3 kali berturut-turut (tidak harus di langkah yang berurutan)" — dua keterangan yang saling bertentangan. Menurut FIDE Laws of Chess, yang benar adalah yang kedua: ketiga kemunculan posisi TIDAK harus berurutan. Selain itu posisi baru dianggap sama bila giliran jalan, hak rokade, dan hak en passant juga sama persis.',
       },
       {
         label: 'Aturan 50 Langkah (50-Move Rule)',
@@ -346,15 +344,6 @@ export const violations = Object.freeze({
           },
         ],
       },
-      verifyNote: {
-        title: 'Catatan Verifikasi — FIDE Laws of Chess',
-        paragraphs: [
-          'Ketentuan untuk kategori Rapid dan Blitz pada dokumen sumber mengacu pada aturan lama. FIDE mengubahnya terhitung 1 Januari 2018, justru dengan tujuan menyamakan aturan catur klasik dengan rapid dan blitz.',
-          'Menurut Pasal 7.5.3 yang berlaku sekarang, illegal move PERTAMA tidak langsung berakibat kalah di kategori mana pun. Lawan mendapat tambahan waktu — 2 menit untuk standar dan rapid, dan 1 menit untuk blitz sesuai Appendix B. Illegal move KEDUA oleh pemain yang sama barulah berakibat kekalahan, dan ini berlaku untuk ketiga kategori. Pengecualiannya tetap sama: bila posisi tidak memungkinkan lawan melakukan skakmat dengan rangkaian langkah sah apa pun, hasilnya remis.',
-          'Ketentuan kekalahan seketika pada satu illegal move kini hanya berlaku untuk rapid dan blitz yang dimainkan TANPA pengawasan wasit yang memadai, yaitu ketika lawan sendiri yang mengajukan klaim sebelum melangkah.',
-          'Satu catatan kecil lagi: menekan jam dengan tangan yang berbeda bukan termasuk illegal move menurut Laws of Chess, melainkan pelanggaran prosedur tersendiri yang ditangani wasit dengan sanksi terpisah.',
-        ],
-      },
     },
 
     {
@@ -382,14 +371,6 @@ export const violations = Object.freeze({
           'Perangkat elektronik: membawa handphone, smartwatch, tablet, atau alat komunikasi aktif apa pun ke area meja pertandingan, bahkan dalam keadaan mati atau silent, adalah pelanggaran berat yang langsung berakibat diskualifikasi dan kekalahan mutlak, dan bahkan pencabutan gelar catur.',
           'Mengganggu lawan: berbicara berlebihan, menawarkan remis secara terus-menerus dan mengganggu konsentrasi lawan (psychological distraction), atau bersikap tidak sportif dapat dikenai teguran keras, pengurangan waktu, hingga pengusiran dari ruang pertandingan oleh wasit.',
           'Menggunakan program: dengan berkembangnya ranah catur online dan perpindahan banyak turnamen catur ke website online, muncul juga kesempatan untuk melakukan tindak curang dengan menggunakan program artificial intelligence untuk memainkan catur atau memberi bantuan ke pemain. Seperti pelanggaran perangkat elektronik, menggunakan bantuan AI di kompetisi catur dapat berakibat diskualifikasi, kekalahan mutlak, dan pencabutan gelar.',
-        ],
-      },
-      verifyNote: {
-        title: 'Catatan Verifikasi — FIDE Laws of Chess',
-        paragraphs: [
-          'Sanksi perangkat elektronik pada dokumen sumber lebih berat daripada yang tertulis di Laws of Chess. Pasal 11.3.2 menetapkan sanksi kekalahan PARTAI bagi pemain yang kedapatan membawa perangkat semacam itu pada badannya di area pertandingan, dan regulasi penyelenggara diperbolehkan menetapkan sanksi yang lebih ringan. Banyak turnamen, misalnya, mengizinkan ponsel dalam keadaan mati sepenuhnya di dalam tas.',
-          'Diskualifikasi dari seluruh turnamen dan pencabutan gelar bukan sanksi otomatis menurut Laws of Chess. Keduanya merupakan sanksi berat yang hanya dapat dijatuhkan melalui proses disiplin tersendiri, biasanya pada kasus kecurangan terbukti — misalnya penggunaan bantuan mesin, yang ditangani FIDE Fair Play Commission, bukan oleh wasit di meja pertandingan.',
-          'Isi pokok materi ini tetap benar: membawa perangkat komunikasi dan memakai bantuan program adalah pelanggaran berat dengan konsekuensi serius. Yang perlu diluruskan hanyalah tingkat sanksi otomatisnya.',
         ],
       },
     },
@@ -440,7 +421,6 @@ export const gamePhases = Object.freeze([
 ]);
 
 export const sources = Object.freeze([
-  'Dokumen "Peraturan Catur" yang disediakan pengajar',
   'FIDE Laws of Chess, termasuk perubahan Pasal 7.5 yang berlaku 1 Januari 2018 dan Appendix A dan B untuk Rapid dan Blitz',
 ]);
 
