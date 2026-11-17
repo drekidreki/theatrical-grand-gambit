@@ -142,27 +142,27 @@ export const profile = Object.freeze({
 /** Aset yang harus disediakan pembuat website. Dipakai untuk slot placeholder. */
 export const requiredAssets = Object.freeze({
   infographic: {
-    path: './assets/images/infographic/irene-infografis.webp',
+    path: 'assets/images/infographic/irene-infografis.webp',
     label: 'Infografis Irene Kharisma Sukandar',
     hint:
       'Letakkan berkas infografis asli pada path di atas. Jangan membuat ulang ' +
       'desainnya; website hanya menampilkan gambar yang disediakan.',
   },
   video: {
-    path: './assets/videos/irene-documentary.mp4',
-    poster: './assets/images/irene/video-poster.webp',
+    path: 'assets/videos/irene-documentary.mp4',
+    poster: 'assets/images/irene/video-poster.webp',
     label: 'Video dokumenter singkat',
     hint:
       'Letakkan video terkompresi (H.264) dan gambar poster pada path di atas. ' +
       'Video tidak akan diputar otomatis dengan suara.',
   },
   portrait: {
-    path: './assets/images/irene/portrait.webp',
+    path: 'assets/images/irene/portrait.webp',
     label: 'Foto potret',
     hint: 'Foto potret untuk bagian pembuka Babak I.',
   },
   ambient: {
-    path: './assets/audio/ambient.mp3',
+    path: 'assets/audio/ambient.mp3',
     label: 'Musik latar suasana teater',
     hint: 'Hanya diputar setelah pengunjung menekan tombol suara.',
   },
