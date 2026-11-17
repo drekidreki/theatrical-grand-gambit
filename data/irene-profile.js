@@ -142,7 +142,7 @@ export const profile = Object.freeze({
 /** Aset yang harus disediakan pembuat website. Dipakai untuk slot placeholder. */
 export const requiredAssets = Object.freeze({
   infographic: {
-    path: '/assets/images/infographic/irene-infografis.webp',
+    path: '/assets/images/infographic/irene-test.webp',
     label: 'Infografis Irene Kharisma Sukandar',
     hint:
       'Letakkan berkas infografis asli pada path di atas. Jangan membuat ulang ' +
